@@ -379,15 +379,19 @@ The [Yelp](https://business.yelp.com/data/resources/open-dataset) dataset is a s
 We are pleased to see that the carefully curated dataset above could have a positive impact on the recommendation community. If you use the above data, please cite the following reference:
 
 ```bibtex
-@inproceedings{yang2024psl,
-  author = {Yang, Weiqin and Chen, Jiawei and Xin, Xin and Zhou, Sheng and Hu, Binbin and Feng, Yan and Chen, Chun and Wang, Can},
-  booktitle = {Advances in Neural Information Processing Systems},
-  editor = {A. Globerson and L. Mackey and D. Belgrave and A. Fan and U. Paquet and J. Tomczak and C. Zhang},
-  pages = {120974--121006},
-  publisher = {Curran Associates, Inc.},
-  title = {PSL: Rethinking and Improving Softmax Loss from Pairwise Perspective for Recommendation},
-  url = {https://proceedings.neurips.cc/paper_files/paper/2024/file/db1d5c63576587fc1d40d33a75190c71-Paper-Conference.pdf},
-  volume = {37},
-  year = {2024}
+@article{yang2024psl,
+  title={PSL: Rethinking and Improving Softmax Loss from Pairwise Perspective for Recommendation},
+  author={Yang, Weiqin and Chen, Jiawei and Xin, Xin and Zhou, Sheng and Hu, Binbin and Feng, Yan and Chen, Chun and Wang, Can},
+  journal={Advances in Neural Information Processing Systems},
+  volume={37},
+  pages={120974--121006},
+  year={2024}
+}
+@inproceedings{yang2025breaking,
+  title={Breaking the Top-K Barrier: Advancing Top-K Ranking Metrics Optimization in Recommender Systems},
+  author={Yang, Weiqin and Chen, Jiawei and Zhang, Shengjia and Wu, Peng and Sun, Yuegang and Feng, Yan and Chen, Chun and Wang, Can},
+  booktitle={Proceedings of the 31st ACM SIGKDD Conference on Knowledge Discovery and Data Mining V. 2},
+  pages={3542--3552},
+  year={2025}
 }
 ```
