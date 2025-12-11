@@ -8,7 +8,7 @@ Our **SeqRec Benchmark** provides a series of standardized datasets for sequenti
 
 The processed datasets contain the following files:
 
-- `user2item.pkl`: A Pandas DataFrame with three columns: `UserID`, `ItemID` and `Timestamp`. Each row represents a user and the items they have interacted with, along with the corresponding timestamps. The `UserID` column contains the unique and sorted user IDs. The `ItemID` and `Timestamp` columns are lists of item IDs and timestamps, respectively. Note that the `UserID` and `ItemID` are both starting from 100, while the 0-99 IDs are reserved for the special tokens (e.g. `<PAD>`), and the `Timestamp` is in Unix time format.
+- `user2item.pkl`: A Pandas DataFrame with three columns: `UserID`, `ItemID` and `Timestamp`. Each row represents a user and the items they have interacted with, along with the corresponding timestamps. The `UserID` column contains the unique and sorted user IDs. The `ItemID` and `Timestamp` columns are lists of item IDs and timestamps, respectively. Note that the `UserID` and `ItemID` are starting from 0 and 1, respectively, while the 0-th ID is reserved for the padding item, and the `Timestamp` is in Unix time format.
 - `item2title.pkl`: A Pandas DataFrame with two columns: `ItemID` and `Title`. Each row represents an item and its corresponding title. The `ItemID` column contains the unique and sorted item IDs, and the `Title` column contains the item titles. Note that `item2title.pkl` is only available for those datasets with text metadata.
 - `summary.json`: A JSON file that contains the dataset statistics.
 
@@ -17,18 +17,18 @@ Let's take `amazon2014-book` dataset as an example:
 - `amazon2014-book/proc/user2item.pkl`:
 
 ```
-        UserID                                             ItemID                                          Timestamp
-0          100  [46164, 132129, 198911, 205467, 206349, 209419...  [1353369600, 1353369600, 1353369600, 135336960...
-1          101    [78991, 265544, 265550, 265548, 265543, 265545]  [1353196800, 1354147200, 1354320000, 135466560...
-2          102         [99459, 99460, 12688, 67549, 29220, 18387]  [1358380800, 1359072000, 1368835200, 138965760...
-3          103           [100195, 220952, 273328, 274192, 276757]  [1402012800, 1402012800, 1402012800, 140201280...
-4          104  [275457, 255948, 146955, 255124, 128362, 20828...  [1362614400, 1373328000, 1376611200, 137730240...
-...        ...                                                ...                                                ...
-509329  509429            [95342, 202158, 159155, 262965, 254531]  [1334620800, 1358208000, 1358640000, 136918080...
-509330  509430  [225184, 168367, 170812, 160865, 191281, 23610...  [1269475200, 1269993600, 1269993600, 127059840...
-509331  509431  [10661, 11429, 39779, 40382, 44603, 79624, 108...  [1375747200, 1375747200, 1375747200, 137574720...
-509332  509432         [18175, 78602, 9676, 209146, 99293, 70297]  [1264896000, 1264896000, 1356307200, 135630720...
-509333  509433  [160054, 160056, 160057, 160058, 160059, 16006...  [973987200, 1044057600, 1094688000, 1105488000...
+        UserID                                             ItemID                                          Timestamp                                                          
+0            0  [46065, 132030, 198812, 205368, 206250, 209320...  [1353369600, 1353369600, 1353369600, 135336960...                                                          
+1            1    [78892, 265445, 265451, 265449, 265444, 265446]  [1353196800, 1354147200, 1354320000, 135466560...                                                          
+2            2         [99360, 99361, 12589, 67450, 29121, 18288]  [1358380800, 1359072000, 1368835200, 138965760...                                                          
+3            3           [100096, 220853, 273229, 274093, 276658]  [1402012800, 1402012800, 1402012800, 140201280...                                                          
+4            4  [275358, 255849, 146856, 255025, 128263, 20818...  [1362614400, 1373328000, 1376611200, 137730240...                                                          
+...        ...                                                ...                                                ...                                                          
+509329  509329            [95243, 202059, 159056, 262866, 254432]  [1334620800, 1358208000, 1358640000, 136918080...
+509330  509330  [225085, 168268, 170713, 160766, 191182, 23600...  [1269475200, 1269993600, 1269993600, 127059840...
+509331  509331  [10562, 11330, 39680, 40283, 44504, 79525, 108...  [1375747200, 1375747200, 1375747200, 137574720...
+509332  509332         [18076, 78503, 9577, 209047, 99194, 70198]  [1264896000, 1264896000, 1356307200, 135630720...
+509333  509333  [159955, 159957, 159958, 159959, 159960, 15996...  [973987200, 1044057600, 1094688000, 1105488000...
 
 [509334 rows x 3 columns]
 ```
@@ -37,17 +37,17 @@ Let's take `amazon2014-book` dataset as an example:
 
 ```
         ItemID                                              Title
-0          100                                        The Prophet
-1          101                                     Master Georgie
-2          102                             The Book of Revelation
-3          103  The Greatest Book on &quot;Dispensational Trut...
-4          104                          Rightly Dividing the Word
+0            1                                        The Prophet
+1            2                                     Master Georgie
+2            3                             The Book of Revelation
+3            4  The Greatest Book on &quot;Dispensational Trut...
+4            5                          Rightly Dividing the Word
 ...        ...                                                ...
-280492  280592                                  Tales of Honor #1
-280493  280593           Newsweek Special Issue - Michael Jackson
-280494  280594  The Berenstain Bears Keep the Faith (Berenstai...
-280495  280595  We Are All Completely Beside Ourselves: A Nove...
-280496  280596      Samantha Sanderson On The Scene (FaithGirlz!)
+280492  280493                                  Tales of Honor #1
+280493  280494           Newsweek Special Issue - Michael Jackson
+280494  280495  The Berenstain Bears Keep the Faith (Berenstai...
+280495  280496  We Are All Completely Beside Ourselves: A Nove...
+280496  280497      Samantha Sanderson On The Scene (FaithGirlz!)
 
 [280497 rows x 2 columns]
 ```
@@ -379,19 +379,15 @@ The [Yelp](https://business.yelp.com/data/resources/open-dataset) dataset is a s
 We are pleased to see that the carefully curated dataset above could have a positive impact on the recommendation community. If you use the above data, please cite the following reference:
 
 ```bibtex
-@article{yang2024psl,
-  title={PSL: Rethinking and Improving Softmax Loss from Pairwise Perspective for Recommendation},
-  author={Yang, Weiqin and Chen, Jiawei and Xin, Xin and Zhou, Sheng and Hu, Binbin and Feng, Yan and Chen, Chun and Wang, Can},
-  journal={Advances in Neural Information Processing Systems},
-  volume={37},
-  pages={120974--121006},
-  year={2024}
-}
-@inproceedings{yang2025breaking,
-  title={Breaking the Top-K Barrier: Advancing Top-K Ranking Metrics Optimization in Recommender Systems},
-  author={Yang, Weiqin and Chen, Jiawei and Zhang, Shengjia and Wu, Peng and Sun, Yuegang and Feng, Yan and Chen, Chun and Wang, Can},
-  booktitle={Proceedings of the 31st ACM SIGKDD Conference on Knowledge Discovery and Data Mining V. 2},
-  pages={3542--3552},
-  year={2025}
+@inproceedings{yang2024psl,
+  author = {Yang, Weiqin and Chen, Jiawei and Xin, Xin and Zhou, Sheng and Hu, Binbin and Feng, Yan and Chen, Chun and Wang, Can},
+  booktitle = {Advances in Neural Information Processing Systems},
+  editor = {A. Globerson and L. Mackey and D. Belgrave and A. Fan and U. Paquet and J. Tomczak and C. Zhang},
+  pages = {120974--121006},
+  publisher = {Curran Associates, Inc.},
+  title = {PSL: Rethinking and Improving Softmax Loss from Pairwise Perspective for Recommendation},
+  url = {https://proceedings.neurips.cc/paper_files/paper/2024/file/db1d5c63576587fc1d40d33a75190c71-Paper-Conference.pdf},
+  volume = {37},
+  year = {2024}
 }
 ```

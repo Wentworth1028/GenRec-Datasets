@@ -65,8 +65,8 @@ class BaseDatasetProcessor(ABC):
         ``gpt-4`` model.
 
     .. note::
-        The numeric IDs of users and items start from 100, since the first 100
-        IDs are reserved for the special tokens in the model (e.g., <PAD>).
+        The numeric IDs start from 0 for users and 1 for items, respectively, since
+        the 0-th ID is reserved for the padding item.
 
     .. note::
         Currently, we only support the item title as the input of LLM. The
@@ -78,7 +78,8 @@ class BaseDatasetProcessor(ABC):
         be saved in the ``dataset_dir_{sample_user_size}/proc`` directory.
     """
 
-    START_ID: Final[int] = 100
+    USER_START_ID: Final[int] = 0
+    ITEM_START_ID: Final[int] = 1
 
     def __init__(
         self,
@@ -179,9 +180,7 @@ class BaseDatasetProcessor(ABC):
                 second element is the item titles. If ``meta_available`` is
                 ``False``, the second element will be ``None``.
         """
-        interactions = interactions.drop_duplicates(
-            subset=["UserID", "ItemID", "Timestamp"], keep="first"
-        )
+        interactions = interactions.drop_duplicates(subset=["UserID", "ItemID", "Timestamp"], keep="first")
         interactions = interactions.reset_index(drop=True)
         if self.meta_available:
             item2title = item2title.drop_duplicates(subset=["ItemID"], keep="first")
@@ -230,8 +229,7 @@ class BaseDatasetProcessor(ABC):
         """
         if self.meta_available:
             valid_items = item2title[
-                item2title["Title"].notna()
-                & item2title["Title"].astype(str).str.strip().astype(bool)
+                item2title["Title"].notna() & item2title["Title"].astype(str).str.strip().astype(bool)
             ]["ItemID"]
             valid_items = np.intersect1d(
                 interactions["ItemID"].unique(),
@@ -270,8 +268,7 @@ class BaseDatasetProcessor(ABC):
             if deleted_users.empty and deleted_items.empty:
                 break
             interactions = interactions[
-                ~interactions["UserID"].isin(deleted_users)
-                & ~interactions["ItemID"].isin(deleted_items)
+                ~interactions["UserID"].isin(deleted_users) & ~interactions["ItemID"].isin(deleted_items)
             ]
         interactions = interactions.reset_index(drop=True)
         if self.meta_available:
@@ -326,12 +323,10 @@ class BaseDatasetProcessor(ABC):
         """
         user_ids = user2item["UserID"].unique()
         item_ids = np.unique(np.concatenate(user2item["ItemID"].values))
-        user_map = {user: idx for idx, user in enumerate(user_ids, start=self.START_ID)}
-        item_map = {item: idx for idx, item in enumerate(item_ids, start=self.START_ID)}
+        user_map = {user: idx for idx, user in enumerate(user_ids, start=self.USER_START_ID)}
+        item_map = {item: idx for idx, item in enumerate(item_ids, start=self.ITEM_START_ID)}
         user2item["UserID"] = user2item["UserID"].map(user_map)
-        user2item["ItemID"] = user2item["ItemID"].apply(
-            lambda x: [item_map[item] for item in x]
-        )
+        user2item["ItemID"] = user2item["ItemID"].apply(lambda x: [item_map[item] for item in x])
         user2item = user2item.sort_values(by=["UserID"]).reset_index(drop=True)
         if self.meta_available:
             item2title["ItemID"] = item2title["ItemID"].map(item_map)
@@ -391,9 +386,7 @@ class BaseDatasetProcessor(ABC):
             }
         return statistics
 
-    def _save_processed_data(
-        self, user2item: pd.DataFrame, item2title: pd.DataFrame | None
-    ) -> None:
+    def _save_processed_data(self, user2item: pd.DataFrame, item2title: pd.DataFrame | None) -> None:
         r"""Save the processed data and the statistics of the dataset. The
         following files will be saved in the ``dataset_dir/proc`` directory:
         - ``user2item.pkl``: the processed user-item interaction data, each
